@@ -21,16 +21,22 @@ public class WalkingScript : PlayerBase
     public override void EnterState(PlayerManager playerState)
     {
         Debug.Log("Walking");
-        currentMana = maxMana; // Inicializa a mana
+        rb.velocity = Vector2.zero;
     }
 
     public override void UpdateState(PlayerManager playerState)
     {
-
-        UpdateVerticalState();
+        HandleInput();
         HandleJump(playerState);
+    }
+
+    public override void FixedUpdate(PlayerManager playerState){
+        
+        UpdateVerticalState();
+
         Move();
     }
+
 
     private float HandleInput()
     {
@@ -40,7 +46,7 @@ public class WalkingScript : PlayerBase
 
     private void Move()
     {
-        Vector2 movement = new Vector2(HandleInput() * speed, rb.velocity.y);
+        Vector2 movement = new Vector2(horizontalInput * speed, rb.velocity.y);
         rb.velocity = movement;
 
         if (horizontalInput != 0)

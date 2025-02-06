@@ -6,6 +6,7 @@ public class theFloorIsLava : MonoBehaviour
 {
     [SerializeField] private float towerX, towerY;
     [SerializeField] private LayerMask Ground;
+    [SerializeField] private Rigidbody2D rb;
     private BoxCollider2D boxcol;
 
     void Start()
@@ -14,9 +15,10 @@ public class theFloorIsLava : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         if(onLava()){
+            rb.velocity = Vector2.zero;
             transform.position = new Vector3(towerX,towerY,0);
         }
     }
