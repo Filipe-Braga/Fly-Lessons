@@ -43,8 +43,6 @@ public class FlyingScript : PlayerBase
         PointController();
         Move();
 
-        Debug.Log(rb.velocity.magnitude);
-
                 // Aplica o limite de velocidade máxima
         if (rb.velocity.magnitude > maxTrust)
         {
