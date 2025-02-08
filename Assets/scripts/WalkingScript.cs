@@ -22,6 +22,7 @@ public class WalkingScript : PlayerBase
     {
         Debug.Log("Walking");
         rb.velocity = Vector2.zero;
+        rb.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public override void UpdateState(PlayerManager playerState)
@@ -36,7 +37,6 @@ public class WalkingScript : PlayerBase
 
         Move();
     }
-
 
     private float HandleInput()
     {

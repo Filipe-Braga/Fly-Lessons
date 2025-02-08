@@ -23,6 +23,9 @@ public class FlyingScript : PlayerBase
 
     private Vector3 previousPosition;
 
+    private float lastTapTime = 0f;
+    private float doubleTapThreshold = 0.3f; // Tempo máximo entre os toques
+
     public override void EnterState(PlayerManager playerState){
         Debug.Log("Flying");
         rb.gravityScale = gravidadeBase;
@@ -30,7 +33,7 @@ public class FlyingScript : PlayerBase
     }
 
     public override void UpdateState(PlayerManager playerState){
-        if (IsGrounded()) playerState.SwitchState(playerState.walkingState);
+        if (IsGrounded() || isDobleClick(KeyCode.Space)) playerState.SwitchState(playerState.walkingState);
 
         // Captura os inputs apenas uma vez por frame
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -105,7 +108,7 @@ public class FlyingScript : PlayerBase
 
 //Terceiros 
 
- private void PointController()
+    private void PointController()
 {   
     Vector3 moveDirection = rb.transform.position - previousPosition;
 
@@ -133,6 +136,20 @@ public class FlyingScript : PlayerBase
         return hit.collider != null;
     }
 
+    private bool isDobleClick(KeyCode key){
+        if (Input.GetKeyDown(key))
+        {
+            if (Time.time - lastTapTime <= doubleTapThreshold)
+            {
+                lastTapTime = 0f; // Reseta para evitar múltiplas ativações
+                return true;
+            }
+
+            lastTapTime = Time.time; // Atualiza o tempo do último toque
+        }
+
+        return false;
+    }
 
 
 }
