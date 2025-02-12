@@ -30,11 +30,8 @@ public class MovePlataform : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D collision){
-         Debug.Log($"Colidiu com: {collision.gameObject.name} (Tag: {collision.gameObject.tag})");
-
         if(collision.gameObject.CompareTag("Killer")){
             Destroy(gameObject);
-            Debug.Log("Destroi vai, nunca te pedi nada");
         }
     }
 }
