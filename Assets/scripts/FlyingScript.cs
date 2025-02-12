@@ -10,14 +10,14 @@ public class FlyingScript : PlayerBase
     private float angleOfAttack, playerAngle;
 
 
-    //Thrust
+    [Header("Thrust")]
     public float incrementThrottle = 0.1f; // Aceleração por uso
     public float Throttle; // Porcentagem Atual de velocidade
     public float maxTrust = 30f; // Limite de velocidade ao subir
+    public float spentMana = 10f;
 
-    //Criar o Lift
+  [Header("Outros")]
     public float liftPower = 0.0001f; // Ajuste conforme necessário
-    //public float maxLift = 1f; // Limite máximo da força Lift
 
     public float dragForce = 0.001f;
 
@@ -55,14 +55,13 @@ public class FlyingScript : PlayerBase
 
     }
 
+
+//--------------------------------------------------------------
     private void Move(){
         Thrust();
         Lift();
         Drag();
     }
-
-
-//Usar como chamar as funções de Lift e Flap e então aplicar a forçe
 
     private void PlayerAngle()
     {
@@ -76,12 +75,13 @@ public class FlyingScript : PlayerBase
     }
 
 
-//Usar como base para o Flap  - Retornar a força que será somada ao objeto para ele se mover para onde o player quer
+
+// TRUST
     
     private void Thrust (){
         Vector3 direction = new Vector3(Mathf.Cos(playerAngle * Mathf.Deg2Rad), Mathf.Sin(playerAngle * Mathf.Deg2Rad), 0f);
-        if(Input.GetButton("Jump")){Throttle += incrementThrottle;}
-        else if(Input.GetKey(KeyCode.LeftControl)){Throttle -= incrementThrottle;}
+        if(Input.GetButton("Jump") && ManaManager.mana > 0){Throttle += incrementThrottle; ManaManager.SubMana(spentMana);} //Thrust com o spaço
+        else if(Input.GetKey(KeyCode.LeftControl)){Throttle -= incrementThrottle;} //Freia com o ctrl
 
         Throttle = Mathf.Clamp(Throttle, 0f, 100f);
 
@@ -96,7 +96,7 @@ public class FlyingScript : PlayerBase
     }
 
 
-//Usar como base para o Lift - Retornar a força de sustentação do objeto
+// LIFT 
     private void Lift() 
     {
         float horizontalSpeed = Mathf.Abs(rb.velocity.x); // Considera apenas a velocidade horizontal

@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameObject asas;
+    [SerializeField] private ManaManager ManaManager;
 
 
     [Header("States")]
@@ -26,7 +27,7 @@ public class PlayerManager : MonoBehaviour
     {
         currentState = walkingState;
         
-        currentState.InitializeDefaults(rb, boxCollider, groundLayer, asas);
+        currentState.InitializeDefaults(rb, boxCollider, groundLayer, asas, ManaManager);
         currentState.EnterState(this);
     }
 
@@ -43,7 +44,7 @@ public class PlayerManager : MonoBehaviour
     public void SwitchState( PlayerBase state )
     {
         currentState = state;
-        currentState.InitializeDefaults(rb, boxCollider, groundLayer, asas);
+        currentState.InitializeDefaults(rb, boxCollider, groundLayer, asas, ManaManager);
         currentState.EnterState(this);
     }
 

@@ -29,7 +29,6 @@ public class Unbalancing : MonoBehaviour
 
     public void DesBalance(float disturb, float maxBalance){
         float visualDesbalance = (disturb/maxBalance) ;
-        Debug.Log(visualDesbalance);
         balanceSlider.value -= visualDesbalance;
     }
 }

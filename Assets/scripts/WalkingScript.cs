@@ -9,8 +9,8 @@ public class WalkingScript : PlayerBase
     public float jumpForce = 10f;
 
     [Header("Mana Settings")]
-    public int maxMana = 5;
-    private int currentMana;
+    public float manaRecovery = 20f;
+
 
     private float horizontalInput;
 
@@ -57,7 +57,7 @@ public class WalkingScript : PlayerBase
 
     private void HandleJump(PlayerManager playerState)
     {
-        if (Input.GetButtonDown("Jump") && (IsGrounded() || currentMana > 0))//Acho que vc pode apagar tudo depois de &&
+        if (Input.GetButtonDown("Jump") )//Acho que vc pode apagar tudo depois de &&
         {
             if (verticalState != 0)
             { 
@@ -74,7 +74,7 @@ public class WalkingScript : PlayerBase
 
         if (IsGrounded())
         {
-            ResetMana();
+            ManaManager.RecoverMana(manaRecovery);
         }
     }
 
@@ -133,13 +133,4 @@ public class WalkingScript : PlayerBase
         return hit.collider != null;
     }
 
-    private void UseMana()
-    {
-        currentMana--;
-    }
-
-    private void ResetMana()
-    {
-        currentMana = maxMana;
-    }
 }
