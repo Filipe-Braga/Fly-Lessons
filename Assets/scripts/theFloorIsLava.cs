@@ -9,6 +9,10 @@ public class theFloorIsLava : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     private BoxCollider2D boxcol;
 
+    [SerializeField] public Equilibrio balanceManager;
+
+    [SerializeField] public ManaManager manaManager;
+
     void Start()
     {
         boxcol = GetComponent<BoxCollider2D>();
@@ -20,6 +24,13 @@ public class theFloorIsLava : MonoBehaviour
         if(onLava()){
             rb.velocity = Vector2.zero;
             transform.position = new Vector3(towerX,towerY,0);
+
+            //Resetar Equilibrio 
+            balanceManager.ResetBalance();
+
+
+            //Resetar Mana
+            manaManager.ResetMana();
         }
     }
 

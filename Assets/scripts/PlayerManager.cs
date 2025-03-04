@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+
 
 public class PlayerManager : MonoBehaviour
 {
@@ -12,14 +12,20 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject asas;
     [SerializeField] private ManaManager ManaManager;
 
+    [SerializeField] public float globalAngle;
+    [SerializeField] public GameObject collisionObject;
+    [SerializeField] public Vector2 collisionNormal;
+
+
 
     [Header("States")]
     public PlayerBase currentState;
     public WalkingScript walkingState = new WalkingScript();
     public FlyingScript flyingState = new FlyingScript();
+    public FallingScript fallingState = new FallingScript();
+    public KnockBackScript knockBackState = new KnockBackScript();
 
-    [Header("UGUI")]
-    [SerializeField] TextMeshProUGUI HUD;
+
 
 
 
@@ -38,8 +44,22 @@ public class PlayerManager : MonoBehaviour
 
     void FixedUpdate(){
         currentState.FixedUpdate(this);
-        HUDUpdate();
     }
+    void OnCollisionEnter2D(Collision2D collision){
+        currentState.PlayerCollision(collision);
+        if (collision.contactCount == 0) return;
+
+        collisionObject = collision.gameObject; //objeto que colidiu
+
+        collisionNormal = collision.contacts[0].normal;
+        globalAngle = Mathf.Atan2(collisionNormal.y, collisionNormal.x) * Mathf.Rad2Deg; //Angulo de colisão global (cima, baixo, esquerda, direita)
+
+        if (Mathf.Abs(globalAngle) > 70f && Mathf.Abs(globalAngle) < 110f && globalAngle > 0)
+        {
+            SwitchState(walkingState);
+        }
+    }
+
 
     public void SwitchState( PlayerBase state )
     {
@@ -48,10 +68,12 @@ public class PlayerManager : MonoBehaviour
         currentState.EnterState(this);
     }
 
-    public void HUDUpdate(){
-        HUD.text = "Velocidade: " + (rb.velocity.magnitude * 3.6f).ToString("F0") + "km/h \n";
-        HUD.text += "Altitude: " + transform.position.y.ToString("F0") + "m \n";
-
+    public void ManagerStartCoroutine(IEnumerator coroutine){
+        StartCoroutine(coroutine);
     }
+
+
+
+    
 
 }

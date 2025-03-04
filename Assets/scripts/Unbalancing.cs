@@ -11,7 +11,6 @@ public class Unbalancing : MonoBehaviour
 
     public GameObject parent;
 
-    // Start is called before the first frame update
     void Start()
     {
      //Balance = Max (tentar pegar do Player)
@@ -31,4 +30,10 @@ public class Unbalancing : MonoBehaviour
         float visualDesbalance = (disturb/maxBalance) ;
         balanceSlider.value -= visualDesbalance;
     }
+
+    public void ResetBar(){
+        balanceSlider.value = MaxBalance;
+    }
+
+
 }

@@ -33,4 +33,10 @@ public class ManaManager : MonoBehaviour
         manaBar.DesBalance(-recoveryRate * Time.deltaTime, maxMana); // Atualiza a barra
     }
 
+    public void ResetMana()
+    {
+        mana = maxMana;
+        manaBar.ResetBar();
+    }
+
 }

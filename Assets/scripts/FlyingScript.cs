@@ -25,17 +25,23 @@ public class FlyingScript : PlayerBase
 
     private float lastTapTime = 0f;
     private float doubleTapThreshold = 0.3f; // Tempo máximo entre os toques
+    private PlayerManager playerState;
+
+
+
+
+    //-------------------------------------------------------------------
 
     public override void EnterState(PlayerManager playerState){
         Debug.Log("Flying");
         rb.gravityScale = gravidadeBase;
         Throttle = 0;
+        this.playerState = playerState;
     }
 
     public override void UpdateState(PlayerManager playerState){
-        if (IsGrounded() || isDobleClick(KeyCode.Space)) playerState.SwitchState(playerState.walkingState);
+        if (isDobleClick(KeyCode.Space)) playerState.SwitchState(playerState.walkingState);
 
-        // Captura os inputs apenas uma vez por frame
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
     }
@@ -122,20 +128,7 @@ public class FlyingScript : PlayerBase
     previousPosition = rb.transform.position; // Atualiza a posição anterior
 }
 
-
-    private bool IsGrounded()
-    {
-        RaycastHit2D hit = Physics2D.BoxCast(
-            boxCollider.bounds.center,
-            boxCollider.bounds.size,
-            0,
-            Vector2.down,
-            0.1f,
-            groundLayer
-        );
-        return hit.collider != null;
-    }
-
+// VV Passar essa bagaça para manager
     private bool isDobleClick(KeyCode key){
         if (Input.GetKeyDown(key))
         {
@@ -151,5 +144,11 @@ public class FlyingScript : PlayerBase
         return false;
     }
 
+    public override void PlayerCollision (Collision2D collision){
+        if (collision.gameObject.CompareTag("Plataform")){
+            Debug.Log("Colisão");
+            playerState.SwitchState(playerState.knockBackState);
 
+        }
+    }
 }

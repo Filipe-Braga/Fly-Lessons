@@ -12,6 +12,9 @@ public class Equilibrio : MonoBehaviour
 
     [SerializeField] public Unbalancing balanceBar;
 
+    [SerializeField] public PlayerManager playerState;
+
+
     private Coroutine recoveryCoroutine; // Referência da Coroutine
 
     void Start()
@@ -22,7 +25,7 @@ public class Equilibrio : MonoBehaviour
 
     void Update()
     {
-        if (balance <= 0)
+        if (balance <= 0 && playerState.currentState == playerState.flyingState)
         {
             lostControl();
         }
@@ -73,8 +76,15 @@ public class Equilibrio : MonoBehaviour
         recoveryCoroutine = null; // Reseta a referência ao terminar
     }
 
+    public void ResetBalance()
+    {
+        balance = maxBalance;
+        balanceBar.ResetBar();
+    }
+
     void lostControl()
     {
-        gameObject.SetActive(false);
+        balance = Mathf.Max(balance, 0);
+        playerState.SwitchState(playerState.fallingState);   
     }
 }

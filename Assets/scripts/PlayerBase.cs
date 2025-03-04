@@ -30,4 +30,12 @@ public abstract class PlayerBase
     public abstract void UpdateState(PlayerManager playerState);
 
     public abstract void FixedUpdate(PlayerManager playerState);
+
+    public abstract void PlayerCollision(Collision2D collision);    
+
+    public bool IsGrounded()
+    {
+        Collider2D hit = Physics2D.OverlapCircle(boxCollider.bounds.center - new Vector3(0, boxCollider.bounds.extents.y, 0), 0.1f, groundLayer);
+        return hit != null;
+    }
 }

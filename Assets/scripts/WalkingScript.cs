@@ -38,6 +38,8 @@ public class WalkingScript : PlayerBase
         Move();
     }
 
+    public override void PlayerCollision (Collision2D collision){}
+
     private float HandleInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -118,19 +120,6 @@ public class WalkingScript : PlayerBase
             scale.y *= -1;
             rb.transform.localScale = scale;
         }
-    }
-
-    private bool IsGrounded()
-    {
-        RaycastHit2D hit = Physics2D.BoxCast(
-            boxCollider.bounds.center,
-            boxCollider.bounds.size,
-            0,
-            Vector2.down,
-            0.1f,
-            groundLayer
-        );
-        return hit.collider != null;
     }
 
 }
