@@ -33,4 +33,4 @@ Este projeto foi desenvolvido inteiramente por mim, abrangendo desde a programa√
 
 1. Clone o reposit√≥rio:  
    ```sh
-   git clone https://github.com/seu-usuario/fly-lessons.git
+   git clone https://github.com/Filipe-Braga/Fly-Lessons.git
