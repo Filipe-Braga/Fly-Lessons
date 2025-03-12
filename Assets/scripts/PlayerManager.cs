@@ -24,6 +24,7 @@ public class PlayerManager : MonoBehaviour
     public FlyingScript flyingState = new FlyingScript();
     public FallingScript fallingState = new FallingScript();
     public KnockBackScript knockBackState = new KnockBackScript();
+    public FrozenScript frozenState = new FrozenScript();
 
 
 

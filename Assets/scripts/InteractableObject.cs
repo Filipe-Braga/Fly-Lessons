@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractableObject : MonoBehaviour
 {
     public GameObject Canvas;
-    public ScriptableObject scriptInteract;
+    public GameObject interact;
 
 
     public void Update(){
@@ -34,9 +34,11 @@ public class InteractableObject : MonoBehaviour
 
     public void DeactiveCanvas(){
         Canvas.SetActive(false);
+        interact.SetActive(false);
     }
 
     public void Interact(){
-        Debug.Log("Interacted");
+        Debug.Log("Interagindo com o objeto");
+        interact.SetActive(true);
     }
 }
